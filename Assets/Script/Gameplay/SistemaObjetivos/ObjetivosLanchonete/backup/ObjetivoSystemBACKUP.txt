@@ -1,0 +1,90 @@
+
+using System;
+using UnityEditor;
+using UnityEngine;
+
+public class ObjetivoSystem : MonoBehaviour
+{
+    public Transform cashierPoint; // The position of the cashier
+    public Transform[] chairPoints; // Array of chair positions
+    public GameObject food; // The food object to interact with
+    public GameObject player; // The player object
+
+    private enum ObjetivoState
+    {
+        WalkToCashier,
+        MakeOrder,
+        WalkToChair,
+        EatFood,
+        Completed
+    }
+
+    private ObjetivoState objetivoAtual;
+    private Transform cadeiraSelecionada;
+
+    void Start()
+    {
+        objetivoAtual = ObjetivoState.WalkToCashier;
+        Debug.Log("Quest started: Walk to the cashier.");
+    }
+
+    public void CompleteFirstQuest()
+    {
+        objetivoAtual = ObjetivoState.MakeOrder;
+    }
+
+    void Update()
+    {
+        switch (objetivoAtual)
+        {
+            case ObjetivoState.MakeOrder:
+                if (Input.GetKeyDown(KeyCode.E)) // Replace with VR interaction logic
+                {
+                    Debug.Log("Order made. Walk to any available chair.");
+                    objetivoAtual = ObjetivoState.WalkToChair;
+                }
+                break;
+
+            case ObjetivoState.WalkToChair:
+                CheckPlayerPositionMultipleChairs(chairPoints, "Eat your food.");
+                break;
+
+            case ObjetivoState.EatFood:
+                if (Input.GetKeyDown(KeyCode.E)) // Replace with VR interaction logic
+                {
+                    Debug.Log("Food eaten. Quest completed!");
+                    objetivoAtual = ObjetivoState.Completed;
+                }
+                break;
+
+            case ObjetivoState.Completed:
+                Debug.Log("You have completed the quest!");
+                break;
+        }
+    }
+
+    private void CheckPlayerPosition(Vector3 targetPosition, string nextTaskMessage)
+    {
+        float distance = Vector3.Distance(player.transform.position, targetPosition);
+        if (distance < 1.5f) // Adjust the distance threshold as needed
+        {
+            Debug.Log(nextTaskMessage);
+            objetivoAtual++;
+        }
+    }
+
+    private void CheckPlayerPositionMultipleChairs(Transform[] chairPositions, string nextTaskMessage)
+    {
+        foreach (Transform chair in chairPositions)
+        {
+            float distance = Vector3.Distance(player.transform.position, chair.position);
+            if (distance < 1.5f) // Adjust the distance threshold as needed
+            {
+                Debug.Log(nextTaskMessage);
+                cadeiraSelecionada = chair; // Store the selected chair
+                objetivoAtual = ObjetivoState.EatFood;
+                break;
+            }
+        }
+    }
+}

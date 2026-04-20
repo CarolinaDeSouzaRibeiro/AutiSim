@@ -1,0 +1,71 @@
+using System;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class QuizManager : MonoBehaviour
+{
+    public TextMeshProUGUI enunciadoText;
+    public Button[] answerButtons;
+    private int currentQuestionIndex = 0;
+
+    private string[] questions = {
+        "Qual é a capital do Brasil?",
+        "Qual é a fórmula química da água?",
+        "Quem escreveu 'Dom Casmurro'?"
+    };
+
+    private string[][] answers = {
+        new string[] { "Rio de Janeiro", "Brasília", "São Paulo", "Salvador" },
+        new string[] { "H2O", "CO2", "O2", "NaCl" },
+        new string[] { "Machado de Assis", "Carlos Drummond", "Clarice Lispector", "Monteiro Lobato" }
+    };
+
+    private int[] correctAnswers = { 1, 0, 0 }; // Índices das respostas corretas
+
+    void Start()
+    {
+        DisplayQuestion();
+    }
+
+    void DisplayQuestion()
+    {
+        enunciadoText.text = questions[currentQuestionIndex];
+
+        for (int i = 0; i < answerButtons.Length; i++)
+        {
+            SetBtnQuestion(answerButtons[i],answers[currentQuestionIndex][i],i);
+        }
+    }
+
+    void SetBtnQuestion(Button btn, string answer,int i)
+    {
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = answer;
+            int index = i; // Necessário para capturar o índice corretamente
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() => CheckAnswer(index));
+    }
+
+    void CheckAnswer(int index)
+    {
+        if (index == correctAnswers[currentQuestionIndex])
+        {
+            Debug.Log("Resposta correta!");
+        }
+        else
+        {
+            Debug.Log("Resposta errada!");
+        }
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.Length)
+        {
+            DisplayQuestion();
+        }
+        else
+        {
+            Debug.Log("Quiz finalizado!");
+        }
+    }
+}

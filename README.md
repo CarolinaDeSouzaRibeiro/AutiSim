@@ -1,0 +1,3 @@
+A serious game prototype created as Bachelor's Thesis artefact envolving the use of virtual reality as a tool for raising awareness surrounding some characteristics and struggles found in many individuals with Autism Spectrum Disorder, more specifically, regarding hypersensitivity episodes and the resulting, daily life struggles.
+
+Um protótipo de jogo sério realizado como artefato de Trabalho de Conclusão de Curso (TCC) envolvendo o uso de realidade virtual como ferramenta de conscientização sobre algumas caracteristicas e dificuldades vistas em muitos indivíduos com Transtorno do Espectro Autista, mais especificamente no tópico de episodios de hipersensibilidade e as dificuldades diarias resultantes.
